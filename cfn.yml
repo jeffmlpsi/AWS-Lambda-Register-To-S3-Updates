@@ -7,7 +7,7 @@ Resources:
   SrcBucket1:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: 'ucsc-devops-lambda-s3-updates011'
+      BucketName: 'ucsc-devops-lamdba-s3-data-data-bucket'
     
 
   S3UpdateListener:
@@ -23,6 +23,7 @@ Resources:
         S3Update:
           Type: S3
           Properties:
-            Bucket: !Ref SrcBucket1 # Use the ARN of the S3 bucket
+            Bucket: 
+              Ref: SrcBucket1
             Events: s3:ObjectCreated:*
 

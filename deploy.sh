@@ -5,17 +5,18 @@ source ./env.sh
 
 echo "Using LAMBDA_BUCKET: ${LAMBDA_BUCKET}"
 echo "Using STACK_NAME: ${STACK_NAME}"
-aws s3api head-bucket --bucket "${LAMBDA_BUCKET}" 2>/dev/null
+echo "Using STACK_NAME: ${DATA_BUCKET}"
+aws s3api head-bucket --bucket "${DATA_BUCKET}" 2>/dev/null
 if [ $? -ne 0 ]; then
-    echo "Creating S3 bucket ${LAMBDA_BUCKET}..."
-    aws s3 mb "s3://${LAMBDA_BUCKET}" --region us-west-1 --profile iam-profile  
+    echo "Creating S3 bucket ${DATA_BUCKET}..."
+    aws s3 mb "s3://${DATA_BUCKET}" --region us-west-1 --profile iam-profile  
 else
-    echo "S3 bucket ${LAMBDA_BUCKET} already exists."
+    echo "S3 bucket ${DATA_BUCKET} already exists."
 fi
 
 
 
-aws cloudformation --profile iam-profile package --template-file cfn.yml --s3-bucket ${LAMBDA_BUCKET} --output-template-file cfn.packaged.yml
+aws cloudformation --profile iam-profile package --template-file cfn.yml --s3-bucket "${LAMBDA_BUCKET}" --output-template-file cfn.packaged.yml
 if [ $? -ne 0 ]; then
   echo "Failed to package CloudFormation template."
   exit 1
