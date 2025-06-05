@@ -2,12 +2,19 @@ AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: Lambda and S3 examples to listen to S3 updates.
 
+Parameters:
+  DataBucketName:
+    Type: String
+    Description: Name of the S3 bucket to store data.
+    Default: 'The Will Not Work'
+
 Resources:
  
   SrcBucket1:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: 'ucsc-devops-lamdba-s3-data-data-bucket'
+      BucketName: 
+        Ref: DataBucketName
     
 
   S3UpdateListener:
